@@ -71,20 +71,13 @@ my-project/
 
 ### Installation
 ```bash
-# Clone or download the project
+# Clone the repository
+git clone https://github.com/Toyosii-tech/my-project.git
 cd my-project
 
 # Option 1: Open directly in browser
 open index.html        # macOS
 start index.html       # Windows
-
-# Option 2: Serve locally (recommended for JS modules/API calls)
-npx serve .
-# or
-python -m http.server 8000
-```
-
-Then navigate to `http://localhost:3000` (or the port shown).
 
 ---
 
