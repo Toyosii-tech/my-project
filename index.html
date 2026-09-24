@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudentHub · Admin dashboard</title>
+    <!-- Font Awesome 6 (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <style>
+        /* ---------- GLOBAL RESET & VARIABLES ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #f4f6fb;
+            --surface: #ffffff;
+            --sidebar-bg: #f8f9fc;
+            --card-bg: #ffffff;
+            --border-light: #e9edf4;
+            --text-primary: #1e2a3a;
+            --text-secondary: #5e6f8d;
+            --text-muted: #8b9bb5;
+            --accent: #2a6df4;
+            --accent-soft: #eef4ff;
+            --success: #1f9d6e;
+            --success-bg: #e4f5ee;
+            --shadow-sm: 0 2px 6px rgba(0, 20, 40, 0.04);
+            --shadow-md: 0 8px 24px rgba(0, 20, 40, 0.06);
+            --radius-card: 16px;
+            --radius-sm: 10px;
+            --radius-btn: 30px;
+            --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text-primary);
+            display: flex;
+            min-height: 100vh;
+            line-height: 1.45;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ---------- SIDEBAR ---------- */
+        .sidebar {
+            width: 260px;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--border-light);
+            padding: 2rem 1.25rem;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            margin-bottom: 2.5rem;
+            padding-left: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: var(--accent);
+            font-size: 1.7rem;
+        }
+
+        .sidebar nav {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .sidebar nav a {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 0.8rem 1rem;
+            border-radius: var(--radius-sm);
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .sidebar nav a i {
+            width: 20px;
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            transition: color 0.15s;
+        }
+
+        .sidebar nav a:hover {
+            background: #eef2f8;
+            color: var(--text-primary);
+        }
+
+        .sidebar nav a:hover i {
+            color: var(--accent);
+        }
+
+        .sidebar nav a.active {
+            background: var(--accent-soft);
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .sidebar nav a.active i {
+            color: var(--accent);
+        }
+
+        /* ---------- MAIN LAYOUT ---------- */
+        .main-content {
+            flex: 1;
+            padding: 2rem 2.2rem 2.5rem 2.2rem;
+            max-width: 1400px;
+            width: 100%;
+        }
+
+        /* ---------- TOP BAR ---------- */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .search {
+            display: flex;
+            align-items: center;
+            background: var(--surface);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-btn);
+            padding: 0.5rem 1.25rem;
+            width: 320px;
+            box-shadow: var(--shadow-sm);
+            transition: border 0.2s, box-shadow 0.2s;
+        }
+
+        .search:focus-within {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(42, 109, 244, 0.1);
+        }
+
+        .search i {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-right: 10px;
+        }
+
+        .search input {
+            border: none;
+            background: transparent;
+            outline: none;
+            font-size: 0.9rem;
+            width: 100%;
+            font-family: var(--font);
+            color: var(--text-primary);
+        }
+
+        .search input::placeholder {
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: var(--surface);
+            padding: 0.5rem 1.2rem 0.5rem 1rem;
+            border-radius: var(--radius-btn);
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .profile i {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            transition: color 0.15s;
+            cursor: default;
+        }
+
+        .profile i.fa-moon:hover {
+            color: var(--accent);
+            cursor: pointer;
+        }
+
+        .profile .fa-user-circle {
+            font-size: 1.3rem;
+            color: var(--accent);
+            margin-left: 4px;
+        }
+
+        .profile b {
+            font-weight: 600;
+            margin-left: 2px;
+        }
+
+        /* ---------- WELCOME SECTION ---------- */
+        .welcome {
+            margin-bottom: 2rem;
+        }
+
+        .welcome h1 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.3rem;
+        }
+
+        .welcome p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            font-weight: 400;
+        }
+
+        /* ---------- STAT CARDS ---------- */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+            margin-bottom: 2.2rem;
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius-card);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+            transition: transform 0.1s ease, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .card i {
+            font-size: 1.8rem;
+            color: var(--accent);
+            opacity: 0.85;
+            margin-bottom: 0.9rem;
+        }
+
+        .card p {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            letter-spacing: 0.01em;
+            margin-bottom: 0.3rem;
+        }
+
+        .card h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            margin-top: 0.1rem;
+        }
+
+        .students-card i { color: #2a6df4; }
+        .courses-card i { color: #8b5cf6; }
+        .results-card i { color: #0891b2; }
+        .fees-card i { color: #1f9d6e; }
+
+        /* ---------- DASHBOARD GRID ---------- */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 1.8rem;
+            align-items: start;
+        }
+
+        /* ---------- STUDENTS SECTION ---------- */
+        .students-section {
+            background: var(--surface);
+            border-radius: var(--radius-card);
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            padding: 1.6rem 1.5rem 1.2rem 1.5rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        .section-header > div {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        #addStudentBtn {
+            background: var(--accent);
+            border: none;
+            color: white;
+            font-weight: 500;
+            font-size: 0.9rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: var(--radius-btn);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: background 0.15s, box-shadow 0.15s;
+            box-shadow: 0 2px 6px rgba(42, 109, 244, 0.2);
+            font-family: var(--font);
+        }
+
+        #addStudentBtn i {
+            font-size: 0.85rem;
+        }
+
+        #addStudentBtn:hover {
+            background: #1a5ad9;
+            box-shadow: 0 4px 10px rgba(42, 109, 244, 0.25);
+        }
+
+        #studentSearch {
+            padding: 0.55rem 1rem;
+            border-radius: var(--radius-btn);
+            border: 1px solid var(--border-light);
+            background: var(--surface);
+            font-size: 0.9rem;
+            font-family: var(--font);
+            width: 200px;
+            outline: none;
+            transition: border 0.15s, box-shadow 0.15s;
+            color: var(--text-primary);
+        }
+
+        #studentSearch:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(42, 109, 244, 0.08);
+        }
+
+        /* ----- TABLE ----- */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        th {
+            text-align: left;
+            padding: 0.75rem 0.5rem 0.75rem 0;
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        td {
+            padding: 1rem 0.5rem 1rem 0;
+            border-bottom: 1px solid #f0f3f9;
+            color: var(--text-primary);
+            font-weight: 450;
+            vertical-align: middle;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status {
+            background: var(--success-bg);
+            color: var(--success);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.75rem;
+            border-radius: 30px;
+            display: inline-block;
+            letter-spacing: 0.01em;
+        }
+
+        /* ---------- ACTION BUTTONS (smaller, aligned) ---------- */
+        td:last-child {
+            white-space: nowrap;   /* keep buttons on one line */
+        }
+
+        .edit, .delete {
+            background: transparent;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px 6px;
+            margin: 0 2px;
+            border-radius: 6px;
+            font-size: 0.75rem;      /* smaller icon size */
+            line-height: 1;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: background 0.15s, color 0.15s;
+            vertical-align: middle;
+        }
+
+        .edit i, .delete i {
+            font-size: 0.8rem;       /* explicit smaller icon size */
+        }
+
+        .edit:hover {
+            background: var(--accent-soft);
+            color: var(--accent);
+        }
+
+        .delete:hover {
+            background: #fee9e9;
+            color: #d43b3b;
+        }
+
+        /* ---------- RIGHT SIDE ---------- */
+        .right-side {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .box {
+            background: var(--surface);
+            border-radius: var(--radius-card);
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            padding: 1.5rem 1.4rem;
+        }
+
+        .box-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.2rem;
+        }
+
+        .box-header h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .box-header h2 i {
+            color: var(--accent);
+            font-size: 1rem;
+        }
+
+        .box-header a {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--accent);
+            text-decoration: none;
+            transition: opacity 0.15s;
+        }
+
+        .box-header a:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+
+        .notification {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #f0f3f9;
+        }
+
+        .notification:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .notification i {
+            font-size: 0.55rem;
+            margin-top: 7px;
+        }
+
+        .notification div {
+            flex: 1;
+        }
+
+        .notification b {
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .notification p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 0.5rem;
+        }
+
+        .actions button {
+            background: #f8faff;
+            border: 1px solid var(--border-light);
+            padding: 0.9rem 0.5rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: background 0.15s, border 0.15s, box-shadow 0.15s;
+            font-family: var(--font);
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .actions button i {
+            font-size: 1.2rem;
+            color: var(--accent);
+        }
+
+        .actions button:hover {
+            background: white;
+            border-color: var(--accent);
+            box-shadow: 0 2px 8px rgba(42, 109, 244, 0.08);
+        }
+
+        .schedule {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f0f3f9;
+            font-size: 0.9rem;
+        }
+
+        .schedule:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .schedule span {
+            color: var(--text-secondary);
+            font-weight: 400;
+            font-size: 0.8rem;
+        }
+
+        .schedule b {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* ---------- RESPONSIVE TWEAKS ---------- */
+        @media (max-width: 1200px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 800px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: static;
+                padding: 1rem 1.5rem;
+                border-right: none;
+                border-bottom: 1px solid var(--border-light);
+            }
+            .sidebar nav {
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+            .sidebar nav a {
+                padding: 0.5rem 0.9rem;
+                font-size: 0.85rem;
+            }
+            .main-content {
+                padding: 1.5rem;
+            }
+            .stats {
+                grid-template-columns: 1fr 1fr;
+            }
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .search {
+                width: 100%;
+            }
+            .top-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            .actions {
+                grid-template-columns: 1fr;
+            }
+            .profile {
+                justify-content: center;
+            }
+        }
+
+        button:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        a:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <i class="fas fa-graduation-cap"></i> StudentHub
+        </div>
+
+        <nav>
+            <a href="#" class="active"><i class="fas fa-th-large"></i> Dashboard</a>
+            <a href="student.htm"><i class="fas fa-user-graduate"></i> Students</a>
+            <a href="courses.html"><i class="fas fa-book-open"></i> Courses</a>
+            <a href="results.html"><i class="fas fa-file-alt"></i> Results</a>
+            <a href="Timetable.html"><i class="fas fa-calendar-alt"></i> Timetable</a>
+            <a href="Fees.html"><i class="fas fa-credit-card"></i> Fees</a>
+            <a href="settings.html"><i class="fas fa-sliders-h"></i> Settings</a>
+        </nav>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- TOP BAR -->
+        <header class="top-bar">
+
+            <div class="search">
+                <i class="fas fa-search"></i>
+                <input 
+                    type="text" 
+                    id="searchInput"
+                    placeholder="Search students..."
+                >
+            </div>
+
+            <div class="profile">
+                <i class="fas fa-moon"></i>
+                <i class="fas fa-bell"></i>
+                <i class="fas fa-user-circle"></i>
+                <b>Admin</b>
+            </div>
+
+        </header>
+
+
+        <!-- WELCOME -->
+        <section class="welcome">
+            <h1>Welcome back, Admin</h1>
+            <p>Here's what's happening with your student management system today.</p>
+        </section>
+
+
+        <!-- STATISTICS -->
+        <section class="stats">
+
+            <div class="card students-card">
+                <i class="fas fa-user-graduate"></i>
+                <p>Total students</p>
+                <h2 id="studentCount">5</h2>
+            </div>
+
+            <div class="card courses-card">
+                <i class="fas fa-book"></i>
+                <p>Total courses</p>
+                <h2 id="courseCount">3</h2>
+            </div>
+
+            <div class="card results-card">
+                <i class="fas fa-file-signature"></i>
+                <p>Total results</p>
+                <h2>5</h2>
+            </div>
+
+            <div class="card fees-card">
+                <i class="fas fa-naira-sign"></i>
+                <p>Total fees paid</p>
+                <h2>₦350,000</h2>
+            </div>
+
+        </section>
+
+
+        <!-- CONTENT AREA -->
+        <section class="dashboard-grid">
+
+
+            <!-- STUDENTS -->
+            <div class="students-section">
+
+                <div class="section-header">
+                    <h2>Students</h2>
+
+                    <div>
+                        <button id="addStudentBtn">
+                            <i class="fas fa-plus"></i> Add student
+                        </button>
+
+                        <input 
+                            type="text"
+                            id="studentSearch"
+                            placeholder="Search students..."
+                        >
+                    </div>
+                </div>
+
+
+                <!-- STUDENT TABLE -->
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Matric No.</th>
+                            <th>Course</th>
+                            <th>Level</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="studentTable">
+
+                        <tr>
+                            <td>1</td>
+                            <td>Aisha Bello</td>
+                            <td>CS/2024/001</td>
+                            <td>Computer Science</td>
+                            <td>200</td>
+                            <td><span class="status">Active</span></td>
+                            <td>
+                                <button class="edit"><i class="fas fa-pen"></i></button>
+                                <button class="delete"><i class="fas fa-trash-can"></i></button>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>2</td>
+                            <td>Tosin Adeyemi</td>
+                            <td>CS/2024/002</td>
+                            <td>Computer Science</td>
+                            <td>200</td>
+                            <td><span class="status">Active</span></td>
+                            <td>
+                                <button class="edit"><i class="fas fa-pen"></i></button>
+                                <button class="delete"><i class="fas fa-trash-can"></i></button>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>3</td>
+                            <td>Chidinso Okafor</td>
+                            <td>MTH/2024/003</td>
+                            <td>Mathematics</td>
+                            <td>200</td>
+                            <td><span class="status">Active</span></td>
+                            <td>
+                                <button class="edit"><i class="fas fa-pen"></i></button>
+                                <button class="delete"><i class="fas fa-trash-can"></i></button>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>4</td>
+                            <td>Zainab Yusuf</td>
+                            <td>PHY/2024/004</td>
+                            <td>Physics</td>
+                            <td>200</td>
+                            <td><span class="status">Active</span></td>
+                            <td>
+                                <button class="edit"><i class="fas fa-pen"></i></button>
+                                <button class="delete"><i class="fas fa-trash-can"></i></button>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>5</td>
+                            <td>Emeka Nwosu</td>
+                            <td>BIO/2024/005</td>
+                            <td>Biology</td>
+                            <td>200</td>
+                            <td><span class="status">Active</span></td>
+                            <td>
+                                <button class="edit"><i class="fas fa-pen"></i></button>
+                                <button class="delete"><i class="fas fa-trash-can"></i></button>
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <!-- RIGHT SIDE -->
+            <div class="right-side">
+
+
+                <!-- NOTIFICATIONS -->
+                <div class="box">
+
+                    <div class="box-header">
+                        <h2><i class="fas fa-bell"></i> Notifications</h2>
+                        <a href="#">View all</a>
+                    </div>
+
+                    <div class="notification">
+                        <i class="fas fa-circle" style="color: #2a6df4;"></i>
+                        <div>
+                            <b>New student added</b>
+                            <p>Aisha Bello has been added.</p>
+                        </div>
+                    </div>
+
+                    <div class="notification">
+                        <i class="fas fa-circle" style="color: #0891b2;"></i>
+                        <div>
+                            <b>Course updated</b>
+                            <p>Computer Science course updated.</p>
+                        </div>
+                    </div>
+
+                    <div class="notification">
+                        <i class="fas fa-circle" style="color: #c47f1a;"></i>
+                        <div>
+                            <b>Fee payment received</b>
+                            <p>₦50,000 payment received.</p>
+                        </div>
+                    </div>
+
+                    <div class="notification">
+                        <i class="fas fa-circle" style="color: #8b5cf6;"></i>
+                        <div>
+                            <b>New result added</b>
+                            <p>Level 200 results uploaded.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- QUICK ACTIONS -->
+                <div class="box">
+
+                    <h2 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.8rem;">Quick actions</h2>
+
+                    <div class="actions">
+
+                        <button class="add">
+                            <i class="fas fa-user-plus"></i> Add student
+                        </button>
+
+                        <button class="course">
+                            <i class="fas fa-book-medical"></i> Add course
+                        </button>
+
+                        <button class="grade">
+                            <i class="fas fa-calculator"></i> Calculate grades
+                        </button>
+
+                        <button class="gpa">
+                            <i class="fas fa-chart-line"></i> Calculate GPA
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TIMETABLE -->
+                <div class="box">
+
+                    <div class="box-header">
+                        <h2><i class="fas fa-calendar-day"></i> Today's timetable</h2>
+                        <a href="#">View all</a>
+                    </div>
+
+                    <div class="schedule">
+                        <span>08:00 – 10:00</span>
+                        <b>Mathematics</b>
+                    </div>
+
+                    <div class="schedule">
+                        <span>10:30 – 12:30</span>
+                        <b>Computer Science</b>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- JAVASCRIPT -->
+    <script src="script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timetable</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #333;
+        }
+
+        header {
+            background: #2c3e50;
+            color: #fff;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            color: #bdc3c7;
+            font-size: 0.95rem;
+        }
+
+        .timetable-section {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 30px 60px;
+        }
+
+        .timetable-wrapper {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+
+        thead {
+            background: #2c3e50;
+            color: #fff;
+        }
+
+        th, td {
+            padding: 14px 16px;
+            text-align: left;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        th {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        tbody tr:hover {
+            background: #f9fbfc;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .day {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .tag.cos { background: #e8f4fc; color: #2980b9; }
+        .tag.mth { background: #fdf2e9; color: #d35400; }
+        .tag.chm { background: #eafaf1; color: #27ae60; }
+        .tag.phy { background: #f4ecf7; color: #8e44ad; }
+        .tag.bio { background: #fdecea; color: #c0392b; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Weekly Timetable</h1>
+        <p>My class schedule for the semester</p>
+    </header>
+
+    <section class="timetable-section">
+        <div class="timetable-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Day</th>
+                        <th>8:00 – 10:00</th>
+                        <th>10:00 – 12:00</th>
+                        <th>12:00 – 2:00</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="day">Monday</td>
+                        <td><span class="tag mth">MTH 102</span></td>
+                        <td><span class="tag cos">COS 102</span></td>
+                        <td>—</td>
+                    </tr>
+                    <tr>
+                        <td class="day">Tuesday</td>
+                        <td><span class="tag phy">PHY 102</span></td>
+                        <td>—</td>
+                        <td><span class="tag chm">CHM 102</span></td>
+                    </tr>
+                    <tr>
+                        <td class="day">Wednesday</td>
+                        <td><span class="tag bio">BIO 102</span></td>
+                        <td><span class="tag mth">MTH 102</span></td>
+                        <td><span class="tag cos">COS 102</span></td>
+                    </tr>
+                    <tr>
+                        <td class="day">Thursday</td>
+                        <td><span class="tag chm">CHM 102</span></td>
+                        <td><span class="tag phy">PHY 102</span></td>
+                        <td>—</td>
+                    </tr>
+                    <tr>
+                        <td class="day">Friday</td>
+                        <td><span class="tag bio">BIO 102</span></td>
+                        <td>—</td>
+                        <td><span class="tag mth">MTH 102</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</body>
+</html>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #333;
+        }
+
+        header {
+            background: #2c3e50;
+            color: #fff;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            color: #bdc3c7;
+            font-size: 0.95rem;
+        }
+
+        .courses {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .course-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+        }
+
+        .course-card .code {
+            display: inline-block;
+            background: #ecf0f1;
+            color: #2c3e50;
+            font-size: 0.75rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+            align-self: flex-start;
+        }
+
+        .course-card h3 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+            font-size: 1.15rem;
+        }
+
+        .course-card p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Available Courses</h1>
+        <p>Courses I'm currently taking this semester</p>
+    </header>
+
+    <section class="courses">
+        <div class="course-card">
+            <span class="code">COS 102</span>
+            <h3>Problem Solving</h3>
+            <p>Learn the fundamentals of computational thinking and structured problem solving.</p>
+        </div>
+
+        <div class="course-card">
+            <span class="code">MTH 102</span>
+            <h3>Introduction to Mathematics</h3>
+            <p>Core mathematical concepts and techniques for science and engineering students.</p>
+        </div>
+
+        <div class="course-card">
+            <span class="code">CHM 102</span>
+            <h3>Salt Analysis</h3>
+            <p>Practical chemistry focused on identifying and analyzing salts in the lab.</p>
+        </div>
+
+        <div class="course-card">
+            <span class="code">PHY 102</span>
+            <h3>Work, Energy and Time</h3>
+            <p>Explore the principles of mechanics, energy transfer, and motion.</p>
+        </div>
+
+        <div class="course-card">
+            <span class="code">BIO 102</span>
+            <h3>Introduction to Biology</h3>
+            <p>Foundational concepts of life, cells, and biological systems.</p>
+        </div>
+    </section>
+</body>
+</html>
